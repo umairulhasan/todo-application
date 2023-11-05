@@ -1,25 +1,21 @@
-import { InferModel } from 'drizzle-orm';
+
 import {
     //these are all types
     pgTable,
     serial,
-    text,
     varchar,
-    timestamp,
-    boolean,
   } from "drizzle-orm/pg-core";
   import { drizzle } from "drizzle-orm/vercel-postgres";
   
   import { sql } from "@vercel/postgres";
+import { InferModel } from "drizzle-orm";
   
-  export const todoTable = pgTable("todo", {
+  export const todoTable = pgTable("todose", {
     id: serial("id").primaryKey(),
-    title: text("title"),
-    description: varchar("description"),
-    status: boolean("status").default(true).notNull(),
+    task: varchar("task", {length:255}).notNull()
   });
   
-  export type Todo = InferModel<typeof todoTable>;
+  export type Todo = InferModel<typeof todoTable>
   export type NewTodo = InferModel<typeof todoTable, "insert">; // insert type
   
   export const db = drizzle(sql);
