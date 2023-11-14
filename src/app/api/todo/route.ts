@@ -48,25 +48,39 @@ import { NextRequest, NextResponse } from "next/server";
 
 //---------------------------------------in drizzle----------------------------------------------------
 
+// export async function GET(request: NextRequest) {
+//     // const client = await db.connect();
+//     try {
+//         //first query if first is already run then the skip this and go to next due to await 
+//         await sql`CREATE TABLE IF NOT EXISTS Todose(id serial, Task varchar(255));`
+//         // secound query for get the data from todos table
+//         const res = await db.select().from(todoTable);
+
+//         // check response 
+
+//         // res[0].id
+//         // Filter the  or find use find method () or if u want loop
+
+//         // console.log(res.rows.find(items => items.id === 1))
+//         return NextResponse.json({ message: res })
+//     } catch (err) {
+//         console.log(err);
+//         return NextResponse.json({ message: "Some thing went wrong" })
+
+//     }
+// }
+
+
 export async function GET(request: NextRequest) {
-    // const client = await db.connect();
     try {
-        //first query if first is already run then the skip this and go to next due to await 
-        await sql`CREATE TABLE IF NOT EXISTS Todose(id serial, Task varchar(255));`
-        // secound query for get the data from todos table
+        await sql`CREATE TABLE IF NOT EXISTS Todos(id serial, Task varchar(255));`
+
         const res = await db.select().from(todoTable);
 
-        // check response 
-
-        res[0].id
-        // Filter the  or find use find method () or if u want loop
-
-        // console.log(res.rows.find(items => items.id === 1))
-        return NextResponse.json({ message: res })
+        return NextResponse.json({ data: res })
     } catch (err) {
-        console.log(err);
-        return NextResponse.json({ message: "Some thing went wrong" })
-
+        console.log((err as { message: string }).message)
+        return NextResponse.json({ message: "Somthing went wrong" })
     }
 }
 
